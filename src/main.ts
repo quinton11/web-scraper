@@ -1,23 +1,5 @@
-import { gethtml } from "@service/request.serv";
-import Cheerio from "cheerio";
-import { extractTC } from "@utils/extract.tc";
+import Scraper from "@scrape";
 
-//Pass in article to scraper
-//Scraper Returns data and logs it
+const scraper = new Scraper();
 
-//Make request to site for html obj with service
-//Get html response and pass it to cheerio parsing function
-
-const url = "https://techcrunch.com";
-//const result = gethtml(url);
-const result = async (url: string) => {
-  console.log("Fetching html...");
-  const res = await gethtml(url);
-  //const $ = Cheerio.load(res)
-  const sum = extractTC(res.data);
-  console.log(sum);
-
-  console.log(sum[0].title);
-};
-
-result(url);
+scraper.result();

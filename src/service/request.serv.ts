@@ -4,7 +4,7 @@ export const gethtml = async (url: string) => {
   //Make get request
   try {
     const html = await axios.get(url);
-    return html;
+    return html.data;
   } catch (err) {
     let errmessage = "Something happened😢";
     if (err instanceof Error) {
