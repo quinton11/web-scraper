@@ -7,7 +7,6 @@ export class YComb extends GenericPage {
 
   public extractData($: cheerio.Root): Article[] {
     const articles: Article[] = [];
-    //let sum: number = 0;
 
     //HTML Parsing based on YCombinator Page Structure
 
@@ -16,9 +15,8 @@ export class YComb extends GenericPage {
       const url = $(obj).find(".titlelink").attr("href");
       const content = "";
       articles.push({ title, url, content });
-      //sum += 1;
     });
-    //console.log(sum)
+
     return articles;
   }
 }
