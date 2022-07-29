@@ -1,6 +1,7 @@
 import { gethtml } from "@service/request.serv";
 import Cheerio from "cheerio";
 import { GenericPage } from "@typedefs/generic.type";
+import { logger } from "@utils/logger";
 
 export default class Scraper {
   pages: GenericPage[];
@@ -9,7 +10,7 @@ export default class Scraper {
   }
 
   public async result(page: GenericPage) {
-    console.log("Fetching html...");
+    console.log(`Fetching ${page.name} html...`);
 
     const res = await gethtml(page.url);
 
@@ -24,7 +25,7 @@ export default class Scraper {
     for (const page of this.pages) {
       const data = await this.result(page);
       /* console.log(`Site: ${page.name} \n\n  ${data}`); */
-      console.log(data);
+      logger.info(data);
     }
   }
 }
