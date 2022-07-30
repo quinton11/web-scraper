@@ -7,16 +7,8 @@ import { Article } from "@typedefs/custom.type";
 export default class Scraper {
   pages: Page[];
 
-  public async result(page: Page) {
-    console.log(`Fetching ${page.name} html...`);
-
-    const res = await gethtml(page.url);
-
-    const $ = Cheerio.load(res);
-
-    const data = this.extractData($, page);
-
-    return data;
+  public getPages(pages: Page[]) {
+    this.pages = pages;
   }
 
   public async handler(pages: Page[]) {
@@ -28,6 +20,18 @@ export default class Scraper {
 
       logger.info(data);
     }
+  }
+
+  public async result(page: Page) {
+    console.log(`Fetching ${page.name} html...`);
+
+    const res = await gethtml(page.url);
+
+    const $ = Cheerio.load(res);
+
+    const data = this.extractData($, page);
+
+    return data;
   }
 
   public extractData($: cheerio.Root, page: Page) {
@@ -43,7 +47,8 @@ export default class Scraper {
     return articles;
   }
 
-  public getPages(pages: Page[]) {
-    this.pages = pages;
+  public validate(data:Article){
+    //validating data
+    //can be implemented externally
   }
 }
