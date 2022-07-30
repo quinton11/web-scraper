@@ -1,31 +1,49 @@
 import { gethtml } from "@service/request.serv";
 import Cheerio from "cheerio";
-import { GenericPage } from "@typedefs/generic.type";
 import { logger } from "@utils/logger";
+import { Page } from "@typedefs/custom.type";
+import { Article } from "@typedefs/custom.type";
 
 export default class Scraper {
-  pages: GenericPage[];
-  constructor(pages: GenericPage[]) {
-    this.pages = pages;
-  }
+  pages: Page[];
 
-  public async result(page: GenericPage) {
+  public async result(page: Page) {
     console.log(`Fetching ${page.name} html...`);
 
     const res = await gethtml(page.url);
 
     const $ = Cheerio.load(res);
 
-    const data = page.extractData($);
+    const data = this.extractData($, page);
 
     return data;
   }
 
-  public async handler() {
+  public async handler(pages: Page[]) {
+    //
+    this.getPages(pages);
+
     for (const page of this.pages) {
       const data = await this.result(page);
-      /* console.log(`Site: ${page.name} \n\n  ${data}`); */
+
       logger.info(data);
     }
+  }
+
+  public extractData($: cheerio.Root, page: Page) {
+    const articles: Article[] = [];
+
+    $(page.dbase).each((index, obj) => {
+      const title = $(obj).find(page.dtitle).eq(0).text();
+      const url = $(obj).find(page.durl).attr("href");
+      const content = $(obj).find(page.dcontent).eq(0).text();
+      articles.push({ title, url, content });
+    });
+
+    return articles;
+  }
+
+  public getPages(pages: Page[]) {
+    this.pages = pages;
   }
 }

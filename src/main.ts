@@ -1,8 +1,8 @@
-import { TCPage } from "@layout/tcrunch.page";
-import { Tpluto } from "@layout/tpluto.page";
-import { YComb } from "@layout/ycomb.page";
+import { Page } from "@typedefs/custom.type";
+import { getdummydata } from "@utils/dummy";
 import Scraper from "@scrape";
 
-const scraper = new Scraper([new TCPage(), new YComb(), new Tpluto()]);
+const scraper = new Scraper();
+const dummy: Page[] = getdummydata();
 
-scraper.handler();
+scraper.handler(dummy);

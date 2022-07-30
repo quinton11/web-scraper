@@ -1,5 +1,5 @@
 import Cheerio from "cheerio";
-import { Article } from "@typedefs/article.type";
+import { Article } from "@typedefs/custom.type";
 
 export const extractTC = (html: string) => {
   //
